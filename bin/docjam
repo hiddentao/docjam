@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+'use strict';
+
+
+var _ = require('lodash'),
+  commander = require('commander'),
+  path = require('path'),
+  Q = require('bluebird'),
+  globAsync = Q.promisify(require('glob')),
+  fs = Q.promisifyAll(require('fs'));
+
+var packageJson = require('../package.json'),
+  Docjam = require('../');
+
+
+commander
+  .version(packageJson.version)
+  .usage('[options] <file ...>')
+  .option('--ext [extension]', 'Default input file extension', 'js')
+  .parse(process.argv);
+
+
+
+Q.map(commander.args, function(arg) {
+  return globAsync(arg, {
+    realpath: true
+  });
+})
+  .then(_.flatten)
+  .map(function getFileInFolder(entry) {
+    return fs.statAsync(entry)
+      .then(function checkIsDir(stat) {
+        // if it's a folder then 
+        if (stat.isDirectory()) {
+          // get files within it
+          return globAsync( 
+            path.join(entry, '**', '**', '*.' + commander.ext),
+            {
+              realpath: true
+            }
+          );
+        } else {
+          return entry;
+        }
+      });
+  })
+  .then(_.flatten)
+  .then(_processFiles)
+  .catch(function(err) {
+    console.error(err.stack);
+
+    throw err;
+  });
+
+
+
+
+
+function _processFiles(files) {
+  var docjam = new Docjam();
+
+  files.forEach(function process(file) {
+    docjam.process(file);
+  })
+};
+
+
+

@@ -1,0 +1,44 @@
+{
+  "name": "docjam",
+  "version": "0.1.0",
+  "description": "Javascript ES6 documentation extractor using markdown and jsdoc",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test",
+    "lint": "node_modules/.bin/eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hiddentao/docjam.git"
+  },
+  "keywords": [
+    "documentation",
+    "docs",
+    "js",
+    "es6",
+    "extract"
+  ],
+  "author": "Ramesh Nair <ram@hiddentao.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hiddentao/docjam/issues"
+  },
+  "homepage": "https://github.com/hiddentao/docjam",
+  "dependencies": {
+    "babel-core": "^5.4.4",
+    "bluebird": "^2.9.25",
+    "class-extend": "^0.1.1",
+    "commander": "^2.8.1",
+    "glob": "^5.0.6",
+    "lodash": "^3.9.1",
+    "prettyjson": "^1.1.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^3.1.5",
+    "coffee-script": "^1.9.2",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-eslint": "^0.12.0",
+    "gulp-mocha": "^2.0.1"
+  }
+}
